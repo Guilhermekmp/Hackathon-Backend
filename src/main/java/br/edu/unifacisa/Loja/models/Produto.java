@@ -1,37 +1,42 @@
 package br.edu.unifacisa.Loja.models;
 
 import java.io.Serializable;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Categoria implements Serializable {
+public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	private String nome;
 	
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-	private Set<Produto> id_produto;
+	private double valor;
 	
-	public Categoria() {
+	@ManyToOne
+	@JoinColumn
+	private Categoria id_categoria;
+	
+	public Produto() {
+		
 	}
 	
-	public Categoria(int id, String nome, Set<Produto> id_produto) {
+	public Produto(int id, String nome, double valor, Categoria id_categoria) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.id_produto = id_produto;
+		this.valor = valor;
+		this.id_categoria = id_categoria;
 	}
 
 	public void setId(Integer id) {
@@ -49,16 +54,24 @@ public class Categoria implements Serializable {
 	public String getNome() {
 		return this.nome;
 	}
-
-	@JsonBackReference
-	public Set<Produto> getId_produto() {
-		return id_produto;
-	}
-
-	public void setId_produto(Set<Produto> id_produto) {
-		this.id_produto = id_produto;
+	
+	public void setValor(double valor) {
+		this.valor = valor;
 	}
 	
+	public double getValor() {
+		return this.valor;
+	}
+
+	@JsonManagedReference
+	public Categoria getId_categoria() {
+		return id_categoria;
+	}
+
+	public void setId_categoria(Categoria id_categoria) {
+		this.id_categoria = id_categoria;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -75,10 +88,9 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Produto other = (Produto) obj;
 		if (id != other.id)
 			return false;
 		return true;
 	}
-
 }
