@@ -23,7 +23,7 @@ public class CategoriaService {
 		repo.save(categoria);
 	}
 	
-	public String atualizarProduto(Categoria categoria, Integer id){
+	public String atualizarCategoria(Categoria categoria, Integer id){
 		Optional<Categoria> produtoAntigo = repo.findById(id);
 		if(!produtoAntigo.isPresent()) {
 			return "Categoria não encontrado";
